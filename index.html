@@ -48,6 +48,10 @@
             margin-top: 20px;
             max-width: 100%;
         }
+        .download-btn {
+            display: none;
+            margin-top: 10px;
+        }
         @media (max-width: 600px) {
             /* Responsive styles for smaller screens */
             body {
@@ -65,7 +69,7 @@
     </style>
 </head>
 <body>
-  <!--this is QR code generator by using online free library By @Niyaz5-->
+    <!--this is QR code generator by using online free library By @Niyaz5-->
     <div class="container">
         <h1>QR Code Generator</h1>
 
@@ -74,6 +78,7 @@
         <input type="text" id="qrText" placeholder="Enter text to generate QR Code">
         <button onclick="generateQRCode()">Generate QR Code</button>
         <div id="qrOutput"></div>
+        <a id="downloadBtn" class="download-btn" download="qrcode.png">Download QR Code</a>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
@@ -82,6 +87,7 @@
         function generateQRCode() {
             const qrText = document.getElementById('qrText').value;
             const qrOutput = document.getElementById('qrOutput');
+            const downloadBtn = document.getElementById('downloadBtn');
 
             if (!qrText) {
                 alert('Please enter some text to generate a QR Code.');
@@ -97,6 +103,13 @@
                 }
 
                 qrOutput.appendChild(canvas);
+
+                // Create a Blob from the canvas and set it as the href for the download button
+                canvas.toBlob(function(blob) {
+                    const url = URL.createObjectURL(blob);
+                    downloadBtn.href = url;
+                    downloadBtn.style.display = 'inline';  // Show the download button
+                }, 'image/png');
             });
         }
     </script>
